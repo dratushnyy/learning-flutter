@@ -1,4 +1,4 @@
-import 'package:hn_app/src/json_parsing.dart';
+import 'package:hn_app/src/article.dart';
 import 'package:test/test.dart';
 
 void main() {

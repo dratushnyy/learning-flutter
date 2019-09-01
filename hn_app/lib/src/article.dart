@@ -1,29 +1,30 @@
-class Article {
-  final String text;
-  final String url;
-  final String by;
-  final int time;
-  final int score;
-  final int commentsCount;
+import 'package:built_value/built_value.dart';
+part 'article.g.dart';
 
-  const Article(
-      {this.text,
-      this.url,
-      this.by,
-      this.time,
-      this.score,
-      this.commentsCount});
-
-  factory Article.fomJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
-    return Article(
-        text: json["text"] ?? "[null]",
-        url: json["url"],
-        by: json["by"],
-        time: json["time"],
-        score: json["score"]);
-  }
+abstract class Article implements Built<Article, ArticleBuilder> {
+  int get id;
+  String get by;
+  String get text;
+  String get url;
+  int get time;
+  int get score;
+  int get commentsCount;
+  Article._();
+  factory Article([void Function(ArticleBuilder) updates]) = _$Article;
 }
+
 var articles = [];
+
+List<int> parseTopStories(String jsonSting) {
+  return [];
+//  final parsed = json.jsonDecode(jsonSting);
+//  final listOfIds = List<int>.from(parsed);
+//  return listOfIds;
+}
+
+Article parseArticle(String jsonString) {
+  return null;
+//  final parsed = json.jsonDecode(jsonString);
+//  var article =  Article.fomJson(parsed);
+//  return article;
+}
