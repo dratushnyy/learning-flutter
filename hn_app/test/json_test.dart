@@ -1,4 +1,8 @@
+import 'dart:convert' as convert;
+
+import 'package:flutter/cupertino.dart';
 import 'package:hn_app/src/article.dart';
+import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 
 void main() {
@@ -12,5 +16,24 @@ void main() {
     const jsonString =
         """{"by":"neversaydie","descendants":33,"id":20842956,"kids":[20843234,20843561,20844503,20843217,20844163,20844285,20844511,20843644,20843586,20843458,20843778,20843356,20843204,20843490],"score":186,"time":1567201043,"title":"On-Device, Real-Time Hand Tracking with MediaPipe","type":"story","url":"https://ai.googleblog.com/2019/08/on-device-real-time-hand-tracking-with.html"}""";
     expect(parseArticle(jsonString).by, "neversaydie");
+  });
+
+  test("parse item.json over a network", () async {
+    final url = "https://hacker-news.firebaseio.com/v0/beststories.json";
+    var result = await http.get(url);
+    if (200 == result.statusCode) {
+      final idListJson = List<int>.from(convert.jsonDecode(result.body));
+      if (idListJson.isNotEmpty) {
+        final storyUrl =
+            "https://hacker-news.firebaseio.com/v0/item/${idListJson.first}.json";
+        final storyRes = await http.get(storyUrl);
+        if (200 == storyRes.statusCode) {
+          var article = parseArticle(storyRes.body);
+          expect(article.by, "lladnar");
+        } else {
+          debugPrint("Error getting story ${storyRes.statusCode}");
+        }
+      }
+    }
   });
 }
