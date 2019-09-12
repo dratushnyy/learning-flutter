@@ -17,8 +17,8 @@ class Ready extends TimerState {
   String toString() => "Ready {timerTimer: $timerTime}";
 }
 
-class Pause extends TimerState {
-  Pause(int timerTimer):super(timerTimer);
+class Paused extends TimerState {
+  Paused(int timerTimer):super(timerTimer);
 
   @override
   String toString() => "Pause {timerTimer: $timerTime}";
